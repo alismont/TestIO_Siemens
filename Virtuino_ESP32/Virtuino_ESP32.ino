@@ -1,16 +1,10 @@
 
-/* Virtuino ESP32 ESP8266 web server and WiFi access point example No1  
- * Created by Ilias Lamprou
- * Updated Feb 1 2018
- * Before  running this code config the settings below as the instructions on the right
- * 
- * Download latest Virtuino android app from the link: https://play.google.com/store/apps/details?id=com.virtuino_automations.virtuino&hl=el
- * Contact address for questions or comments: iliaslampr@gmail.com
+/*  15-02-18 Projet Test I/O
+ *   Auteurs: Brahim Boujamaoui
  */
 
 
-/*========= Virtuino General methods  
-*
+/*========= Virtuino General methods ==============================================================================================================================  
 *  void vDigitalMemoryWrite(int digitalMemoryIndex, int value)       write a value to a Virtuino digital memory   (digitalMemoryIndex=0..31, value range = 0 or 1)
 *  int  vDigitalMemoryRead(int digitalMemoryIndex)                   read  the value of a Virtuino digital memory (digitalMemoryIndex=0..31, returned value range = 0 or 1)
 *  void vMemoryWrite(int memoryIndex, float value);                  write a value to Virtuino memory             (memoryIndex=0..31, value range as float value)
@@ -19,7 +13,7 @@
 *  int getPinValue(int pin);                                         read the value of a Pin. Usefull to read the value of a PWM pin
 *  long lastCommunicationTime;                                       Stores the last communication with Virtuino time
 *  void vDelay(long milliseconds); 
-*/ 
+*/ ================================================================================================================================================================
 
 #include <WiFi.h>
 
