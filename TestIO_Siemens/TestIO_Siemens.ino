@@ -137,7 +137,6 @@ virtuino.vDigitalMemoryWrite(7,IN1[7]);
 //Validation
 
 if (virtuino.vDigitalMemoryRead(8)){
-    Serial.println("1-8");
     Input1Valid[0] = virtuino.vMemoryRead(10);
     Input1Valid[1] = virtuino.vMemoryRead(11);
     Input1Valid[2] = virtuino.vMemoryRead(12);
