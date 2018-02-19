@@ -30,8 +30,11 @@ Virtuino_ESP_WifiServer virtuino(&server);
 
 //================= VARIABLE =========================================
 
-boolean I1,IO1=0;
-
+int Index_Panel=0,Memo_Index_Panel=0; // 0=Menu 1=Panel_IO1....etc
+int Input[3]; // contient l'index de chaque cartes entrées ici 2
+boolean IN1[7]; // Etat des bits 0-7 de la 1er carte d'entrée
+boolean IN2[7]; // Etat des bits 0-7 de la 2er carte d'entrée
+int Input1Valid[7],Input2Valid[7];
 //====================================================================
 void connectToWiFiNetwork(){
   Serial.println("Connecting to "+String(ssid));
@@ -66,12 +69,10 @@ void initAccessPoint(){
 }
 
 
-
-
 //+++++++++++++++++++ SEUP ++++++++++++++++++++++++++++++++++++++++++
 void setup() {
    //----- Virtuino settings
-  virtuino.DEBUG=true;                         // set this value TRUE to enable the serial monitor status
+  virtuino.DEBUG=false;                         // set this value TRUE to enable the serial monitor status
   virtuino.password="";                    // Set a password or prefix to your web server for more protection 
                                                // avoid special characters like ! $ = @ # % & * on your password. Use only numbers or text characters
 
@@ -88,22 +89,113 @@ void setup() {
 void loop() {
   virtuino.run();              
 
- // enter your loop code here.
+//-----------------------
+// Lecture fichier Index INPUT OUPUT
+// A Faire -> Tableau Input[i];
+Input[1]=0;
+Input[2]=7;
 
+//-----------------------
+ // Lecture Index Panel
+ //0=Menu
+Index_Panel=virtuino.vMemoryRead(0);
 
-virtuino.vDigitalMemoryWrite(0,I1);
- IO1=virtuino.vDigitalMemoryRead(1);
-   Serial.println(IO1);
+//Menu
+if(Index_Panel==0){
+
+ virtuino.vMemoryWrite(1, Input[1]); // 1er carte INPUT 0-7 bits  V1= index 1ere carte ENTREE
+ virtuino.vMemoryWrite(2, Input[2]); // 1er carte INPUT 0-7 bits  V2= index 2ere carte ENTREE
+}
+
+//2em Panel traitement 1er carte d'entrée
+if(Index_Panel==1){
+   virtuino.vMemoryWrite(1, Input[1]); // 1er carte INPUT 0-7 bits  V1= index 1ere carte ENTREE
+
+//Ecriture de l ETAT des tests pour cet Index, précédent
+if (Memo_Index_Panel!=Index_Panel){
+ virtuino.vMemoryWrite(10,Input1Valid[0]);
+ virtuino.vMemoryWrite(11,Input1Valid[1]);
+ virtuino.vMemoryWrite(12,Input1Valid[2]); 
+ virtuino.vMemoryWrite(13,Input1Valid[3]); 
+ virtuino.vMemoryWrite(14,Input1Valid[4]); 
+ virtuino.vMemoryWrite(15,Input1Valid[5]); 
+ virtuino.vMemoryWrite(16,Input1Valid[6]); 
+ virtuino.vMemoryWrite(17,Input1Valid[7]);
+   Memo_Index_Panel=Index_Panel;
+}
+  
+// visualisation état bits 0-7 I index DV0 à DV7
+virtuino.vDigitalMemoryWrite(0,IN1[0]);
+virtuino.vDigitalMemoryWrite(1,IN1[1]);
+virtuino.vDigitalMemoryWrite(2,IN1[2]);
+virtuino.vDigitalMemoryWrite(3,IN1[3]);
+virtuino.vDigitalMemoryWrite(4,IN1[4]);
+virtuino.vDigitalMemoryWrite(5,IN1[5]);
+virtuino.vDigitalMemoryWrite(6,IN1[6]);
+virtuino.vDigitalMemoryWrite(7,IN1[7]);
+
+//Validation
+
+if (virtuino.vDigitalMemoryRead(8)){
+    Serial.println("1-8");
+    Input1Valid[0] = virtuino.vMemoryRead(10);
+    Input1Valid[1] = virtuino.vMemoryRead(11);
+    Input1Valid[2] = virtuino.vMemoryRead(12);
+    Input1Valid[3] = virtuino.vMemoryRead(13);
+    Input1Valid[4] = virtuino.vMemoryRead(14);
+    Input1Valid[5] = virtuino.vMemoryRead(15);
+    Input1Valid[6] = virtuino.vMemoryRead(16);
+    Input1Valid[7] = virtuino.vMemoryRead(17);
+    virtuino.vDigitalMemoryWrite(8,0);
+}
+}
+
+//3em Panel traitement 1er carte d'entrée
+// visualisation état bits 0-7 I index DV0 à DV7
+if(Index_Panel==2){
+   virtuino.vMemoryWrite(2, Input[2]); // 1er carte INPUT 0-7 bits  V2= index 2ere carte ENTREE
+
+//Ecriture de l ETAT des tests pour cet Index, précédent
+if (Memo_Index_Panel!=Index_Panel){
+ virtuino.vMemoryWrite(10,Input2Valid[0]);
+ virtuino.vMemoryWrite(11,Input2Valid[1]);
+ virtuino.vMemoryWrite(12,Input2Valid[2]); 
+ virtuino.vMemoryWrite(13,Input2Valid[3]); 
+ virtuino.vMemoryWrite(14,Input2Valid[4]); 
+ virtuino.vMemoryWrite(15,Input2Valid[5]); 
+ virtuino.vMemoryWrite(16,Input2Valid[6]); 
+ virtuino.vMemoryWrite(17,Input2Valid[7]);
+   Memo_Index_Panel=Index_Panel;
+}
+   
+virtuino.vDigitalMemoryWrite(0,IN2[0]);
+virtuino.vDigitalMemoryWrite(1,IN2[1]);
+virtuino.vDigitalMemoryWrite(2,IN2[2]);
+virtuino.vDigitalMemoryWrite(3,IN2[3]);
+virtuino.vDigitalMemoryWrite(4,IN2[4]);
+virtuino.vDigitalMemoryWrite(5,IN2[5]);
+virtuino.vDigitalMemoryWrite(6,IN2[6]);
+virtuino.vDigitalMemoryWrite(7,IN2[7]);
+
+if (virtuino.vDigitalMemoryRead(8)){
+    Input2Valid[0] = virtuino.vMemoryRead(10);
+    Input2Valid[0] = virtuino.vMemoryRead(11);
+    Input2Valid[0] = virtuino.vMemoryRead(12);
+    Input2Valid[0] = virtuino.vMemoryRead(13);
+    Input2Valid[0] = virtuino.vMemoryRead(14);
+    Input2Valid[0] = virtuino.vMemoryRead(15);
+    Input2Valid[0] = virtuino.vMemoryRead(16);
+    Input2Valid[0] = virtuino.vMemoryRead(17);
+        virtuino.vDigitalMemoryWrite(8,0);
+}
+}
+
 
   //------ avoid to use delay() function in your code
-  virtuino.vDelay(5000);        // wait 5 seconds
+  virtuino.vDelay(1000);        // wait 5 seconds
 
-if (I1==0){
-  I1=1;
-}else {
-    I1=0;
-}
-delay(10000);
+
+delay(100);
 }
 
 
