@@ -93,7 +93,7 @@ void loop() {
 // Lecture fichier Index INPUT OUPUT
 // A Faire -> Tableau Input[i];
 Input[1]=0;
-Input[2]=7;
+Input[2]=6;
 
 //-----------------------
  // Lecture Index Panel
