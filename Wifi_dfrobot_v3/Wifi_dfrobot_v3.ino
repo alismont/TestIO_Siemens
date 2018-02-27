@@ -1,4 +1,9 @@
 
+/*  15-02-18 Projet Test I/O
+ *   Auteurs: Brahim Boujamaoui
+ */
+
+
 /*========= Virtuino General methods ==============================================================================================================================  
 *  void vDigitalMemoryWrite(int digitalMemoryIndex, int value)       write a value to a Virtuino digital memory   (digitalMemoryIndex=0..31, value range = 0 or 1)
 *  int  vDigitalMemoryRead(int digitalMemoryIndex)                   read  the value of a Virtuino digital memory (digitalMemoryIndex=0..31, returned value range = 0 or 1)
@@ -8,11 +13,11 @@
 *  int getPinValue(int pin);                                         read the value of a Pin. Usefull to read the value of a PWM pin
 *  long lastCommunicationTime;                                       Stores the last communication with Virtuino time
 *  void vDelay(long milliseconds); 
-*/ 
+*/ ================================================================================================================================================================
 
 #include <WiFi.h>
 
-//#include "Virtuino_ESP_WifiServer.h"
+#include "Virtuino_ESP_WifiServer.h"
 
 //--- SETTINGS ------------------------------------------------
 const char* ssid = "bbox2-5de4";            // WIFI network SSID
@@ -50,7 +55,7 @@ void connectToWiFiNetwork(){
 void initAccessPoint(){
   Serial.print("Setting soft-AP ... ");                   // Default IP: 192.168.4.1
    WiFi.mode(WIFI_AP);                                     // Config module as Access point only.  Set WiFi.mode(WIFI_AP_STA); to config module as Acces point and station
-   boolean result = WiFi.softAP("NET_ESP", "12345678");      // SSID: Virtuino Network   Password:12345678
+   boolean result = WiFi.softAP("DFROBOT_WIFI_SHIED_V3", "12345678");      // SSID: Virtuino Network   Password:12345678
    if(result == true)  {
     Serial.println("Server Ready");
     Serial.println(WiFi.softAPIP());
@@ -88,15 +93,15 @@ void loop() {
 
 // // enter your loop code here.
 // 
- int value1 = random(100);    // replace the random values with your sensors' values
+//  int value1 = random(100);    // replace the random values with your sensors' values
 //  int value2 = random(100);
 //
-  virtuino.vMemoryWrite(1,value1);   // write the value1 to virtual memory V1. On Virtuino panel add a value display to virtual pin V1
+//  virtuino.vMemoryWrite(1,value1);   // write the value1 to virtual memory V1. On Virtuino panel add a value display to virtual pin V1
 //  virtuino.vMemoryWrite(2,value2);   // write the value2 to virtual memory V2  On Virtuino panel add a value display to virtual pin V2
 //  
 //
 //  //------ avoid to use delay() function in your code
-  virtuino.vDelay(5000);        // wait 5 seconds
+//  virtuino.vDelay(5000);        // wait 5 seconds
 
 
 }

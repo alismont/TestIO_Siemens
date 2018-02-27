@@ -1,6 +1,6 @@
 // Test IO Siemens
 // Arduino UNO 
-// Slave com I2C 
+// Master com I2C 
 
 //--------------------------------
 #include <Wire.h>
@@ -12,12 +12,11 @@
 #define BPinitConf 7
 
 int Input[100];
-
+byte x = 0;
 int T[10],TDN[10];
 boolean CptT[10];
 boolean Condition=true;
 
-byte x = 0;
 
 int B3[100]; // ONS
 
@@ -72,8 +71,9 @@ void loop()
 // Changement & chargement si BP1  fichier "CONFIG.txt"
 // Ecriture dans le tableau Input[] 
 //OneShot
- 
-  if (digitalRead(BPinitConf)==1) {
+ int SimuBPinitConf=1;
+  //if (digitalRead(BPinitConf)==1) {
+    if (SimuBPinitConf==1) {
     if (!B3[1]) {
       B3[1] = 1;
     SDRead();    
@@ -85,29 +85,35 @@ void loop()
 
   
 // Transmission I2C
-// Delai 10000
+// Delai en 1/10 de secondes 100=10s
   if (Condition & !TDN[8]==1) {
     CptT[8] = true;
   }
   else {
-    Serial.println("ELSE CptT[8] = true");
+    //Serial.println("ELSE CptT[8] = true");
     T[8] =  0.0;
     TDN[8] =  0.0;
     CptT[8] = false;
   }
-  if (T[8] >= 10) { // présélection de 600 donc 60 secondes
+  if (T[8] >= 50) { // présélection de 600 donc 60 secondes
     TDN[8] =  1.0;   // bit down
-    T[8] = 10;
+    T[8] = 50;
   }
 if (TDN[8]==1){
-  Serial.println("TDN8 à 1");
 
   Wire.beginTransmission(9);  // transmit to device #9
-  Wire.write("x is ");        // sends five bytes
-  Wire.write(x);              // sends one byte
+  Wire.write("CONFIG");        // sends 6 bytes
+  Serial.println("CONFIG" );
+int i=1;
+  while(i<Input[0])
+  {
+        Wire.write(Input[i]);
+        Serial.println(Input[i]);      // sends one byte
+        i++;
+  }
+     
   Wire.endTransmission();     // stop transmitting
-  Serial.println("Transmit"); 
-  x++;
+
 }
 
 }
@@ -146,7 +152,6 @@ void SDRead()
 {
   CONFIG = SD.open("CONFIG.txt", FILE_READ);
   Index = 1;
-  String inString;
   if (CONFIG) {
     Serial.println(" CONFIG ouvert en lecture");
     Serial.println("Debut:");   
@@ -166,6 +171,7 @@ void SDRead()
     }
     }   
     // close the file:
+    Input[0]=Index;
     CONFIG.close();
   } else {
   }
@@ -177,9 +183,13 @@ void SDRead()
   if (CptT[8]) {
 
     T[8] =  T[8] + 1.0;
-            Serial.println(T[8]);
+            //Serial.println(T[8]);
   }
   }
+  
+  
+  
+// MEMOIRE
 //----------------------
 // Temporisation  TON
 /*
@@ -213,3 +223,8 @@ if (Condition) {
     T[8] = 100;
   }
 */
+/* I2C CLASS
+ * Wire.requestFrom(9,2)
+ *
+ */
+ 
