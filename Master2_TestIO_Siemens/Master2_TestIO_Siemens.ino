@@ -2,7 +2,8 @@
 // Arduino UNO 
 // Master com I2C 
 
-//--------------------------------
+//--------------------------------------------------------------------------------------------------------
+//------------------------------les bibliotheques---------------------------------------------------------
 #include <Wire.h>
 #include <SPI.h>
 #include <SD.h>
@@ -10,24 +11,34 @@
 #include <VSync.h>
 #include "VirtuinoEthernet_WebServer.h"                           // Neccesary virtuino library for ethernet shield
 
+//-----------------------------les declarations------------------------------------------------------------
 byte mac[] = {0x90, 0xA2, 0xDA, 0x0E, 0x05, 0xBD};                // Set the ethernet shield mac address.
 IPAddress ip(192, 168, 4, 1);                                   // Set the ethernet shield ip address. Check your gateway ip address first
 VirtuinoEthernet_WebServer virtuino(8000);                          // default port=8000
 //--------------------------------
 
-#define BPinitConf 7
-
-ValueSender<2> sender;
+#define BPinitConf 7                                            //le bouton bousoir d'init est branché sur la pin 7
+#define bits      8
+//ValueSender<2> sender;
 //ValueReceiver<2> receiver;
 
 //  valueA and valueB are the incoming values
-int VersArd0, VersArd1;
+//int VersArd0, VersArd1;
 
+char caractereReception;
+char octetReception;
+char octetReceptionProc;
+char caractereReceptionProc;
+String chaineReception;
+String chaineReceptionProc,Mess;
+int cpt;
 //  doubleA and doubleB are the outgoing variables
 //int doubleA, doubleB;
 
 int Input[100];
 int In1[8];
+//int In1[bits], In2[bits], In3[bits], In4[bits], In5[bits], In6[bits], In7[bits], In8[bits], In9[bits], In10[bits];
+//int In11[bits], In12[bits], In13[bits], In14[bits], In15[bits], In16[bits], In17[bits], In18[bits], In19[bits], In20[bits];
 int InValid1[8];
 int In2[8];
 int InValid2[8];
@@ -77,10 +88,7 @@ int memoEcran,Ecran;
 
 int B3[100]; // ONS
 
-char octetReceptionProc;
-char caractereReceptionProc;
-String chaineReception;
-String chaineReceptionProc;
+
 
 /* Broche CS de la carte SD */
 const byte SDCARD_CS_PIN = 4; // TODO A remplacer suivant votre shield SD
@@ -91,8 +99,10 @@ int Index;
 //********************************************************************************************************
 void setup()
 {
-  sender.observe(VersArd0);
-  sender.observe(VersArd1);
+
+
+  //sender.observe(VersArd0);
+  //sender.observe(VersArd1);
 
  // receiver.observe(valueA);
  // receiver.observe(valueB);
@@ -124,26 +134,51 @@ pinMode(BPinitConf,INPUT);
   pinMode(4, OUTPUT); // Arduino Mega
   
     /* Initialisation de la carte SD */
-  Serial.println("Init SD card... ");
+  //Serial.println("Init SD card... ");
   if (!SD.begin(SDCARD_CS_PIN)) {
-    Serial.println("FAIL");
+    //Serial.println("FAIL");
     for(;;); //  appui sur bouton RESET
   }
-  Serial.println("OK1");  
+  //Serial.println("OK1");  
+  
+  cpt=0;
 
 }
 
 //*******************************************************************************************************
 void loop()
 {
+// communication vers processing
+while (Serial.available() > 0) { // si un caractère en réception
+    octetReception = Serial.read(); // lit le 1er octet de la file d'attente
+    if (octetReception == 13) { // si Octet reçu est le saut de ligne
+
+      if (chaineReception == "Lu")  {
+      cpt++;
+      Mess= String(Ecran)+" OK/*";
+        Serial.println(Mess);
+      }   
+      
+      chaineReception = ""; 
+ 
+      }
+      else { 
+      caractereReception = char(octetReception); 
+      chaineReception = chaineReception + caractereReception; 
+    }
+    }
+
+
+
+
 // Virtuino
      virtuino.run();
-   VersArd0++;//=Input[0];
-  VersArd1=Input[2];   
+  // VersArd0++;//=Input[0];
+ // VersArd1=Input[2];   
   //receiver.sync();
  // doubleA = valueA * 2;
  // doubleB = valueB * 2;
-  sender.sync();
+  //sender.sync();
 
 // Changement & chargement si BP1  fichier "CONFIG.txt"
 // Ecriture dans le tableau Input[] 
@@ -181,13 +216,17 @@ if (TDN[8]==1){
   for(i=1;i<Input[0];i++)
   {
         virtuino.vMemoryWrite(i,Input[i]);
-        Serial.println(Input[i]);
+        //println(Input[i]);
   }
 }
 
 // Test cartes
   Ecran=int(virtuino.vMemoryRead(0));
-  
+  if(int(virtuino.vMemoryRead(0))==1)
+  {
+    if(int(virtuino.vMemoryRead(30))==1) Ecran=1;
+    if(int(virtuino.vMemoryRead(30))==2) Ecran=2;
+  }
   switch (Ecran) {
   case 0:
     // statements
@@ -199,7 +238,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In1[i]);
-        virtuino.vMemoryWrite(i+20, InValid1[i]);
+        virtuino.vMemoryWrite(i+21, InValid1[i]);
  
       }
       memoEcran=Ecran;
@@ -209,7 +248,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In1[i]);
-        InValid1[i]=int(virtuino.vMemoryRead(i+20));
+        InValid1[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -222,7 +261,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In2[i]);
-        virtuino.vMemoryWrite(i+20, InValid2[i]);  
+        virtuino.vMemoryWrite(i+21, InValid2[i]);  
       }
       memoEcran=Ecran;
     }
@@ -231,7 +270,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In2[i]);
-        InValid2[i]=int(virtuino.vMemoryRead(i+20));
+        InValid2[i]=int(virtuino.vMemoryRead(i+21));
       }
          //   virtuino.vDigitalMemoryWrite(8,0);
     // } 
@@ -243,7 +282,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In3[i]);
-        virtuino.vMemoryWrite(i+20, InValid3[i]);  
+        virtuino.vMemoryWrite(i+21, InValid3[i]);  
       }
       memoEcran=Ecran;
     }
@@ -252,7 +291,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In3[i]);
-        InValid3[i]=int(virtuino.vMemoryRead(i+20));
+        InValid3[i]=int(virtuino.vMemoryRead(i+21));
       }
           //  virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -264,7 +303,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In4[i]);
-        virtuino.vMemoryWrite(i+20, InValid4[i]);  
+        virtuino.vMemoryWrite(i+21, InValid4[i]);  
       }
       memoEcran=Ecran;
     }
@@ -273,7 +312,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In4[i]);
-        InValid4[i]=int(virtuino.vMemoryRead(i+20));
+        InValid4[i]=int(virtuino.vMemoryRead(i+21));
       }
             //virtuino.vDigitalMemoryWrite(8,0);
      // }
@@ -285,7 +324,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In5[i]);
-        virtuino.vMemoryWrite(i+20, InValid5[i]);
+        virtuino.vMemoryWrite(i+21, InValid5[i]);
  
       }
       memoEcran=Ecran;
@@ -295,7 +334,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In5[i]);
-        InValid5[i]=int(virtuino.vMemoryRead(i+20));
+        InValid5[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -308,7 +347,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In6[i]);
-        virtuino.vMemoryWrite(i+20, InValid6[i]);
+        virtuino.vMemoryWrite(i+21, InValid6[i]);
  
       }
       memoEcran=Ecran;
@@ -318,7 +357,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In6[i]);
-        InValid6[i]=int(virtuino.vMemoryRead(i+20));
+        InValid6[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -331,7 +370,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In7[i]);
-        virtuino.vMemoryWrite(i+20, InValid7[i]);
+        virtuino.vMemoryWrite(i+21, InValid7[i]);
  
       }
       memoEcran=Ecran;
@@ -341,7 +380,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In7[i]);
-        InValid7[i]=int(virtuino.vMemoryRead(i+20));
+        InValid7[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -354,7 +393,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In8[i]);
-        virtuino.vMemoryWrite(i+20, InValid8[i]);
+        virtuino.vMemoryWrite(i+21, InValid8[i]);
  
       }
       memoEcran=Ecran;
@@ -364,7 +403,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In8[i]);
-        InValid8[i]=int(virtuino.vMemoryRead(i+20));
+        InValid8[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -377,7 +416,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In9[i]);
-        virtuino.vMemoryWrite(i+20, InValid9[i]);
+        virtuino.vMemoryWrite(i+21, InValid9[i]);
  
       }
       memoEcran=Ecran;
@@ -387,7 +426,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In9[i]);
-        InValid9[i]=int(virtuino.vMemoryRead(i+20));
+        InValid9[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -400,7 +439,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In10[i]);
-        virtuino.vMemoryWrite(i+20, InValid10[i]);
+        virtuino.vMemoryWrite(i+21, InValid10[i]);
  
       }
       memoEcran=Ecran;
@@ -410,7 +449,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In10[i]);
-        InValid10[i]=int(virtuino.vMemoryRead(i+20));
+        InValid10[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -423,7 +462,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In11[i]);
-        virtuino.vMemoryWrite(i+20, InValid11[i]);
+        virtuino.vMemoryWrite(i+21, InValid11[i]);
  
       }
       memoEcran=Ecran;
@@ -433,7 +472,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In11[i]);
-        InValid11[i]=int(virtuino.vMemoryRead(i+20));
+        InValid11[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -446,7 +485,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In12[i]);
-        virtuino.vMemoryWrite(i+20, InValid12[i]);  
+        virtuino.vMemoryWrite(i+21, InValid12[i]);  
       }
       memoEcran=Ecran;
     }
@@ -455,7 +494,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In12[i]);
-        InValid12[i]=int(virtuino.vMemoryRead(i+20));
+        InValid12[i]=int(virtuino.vMemoryRead(i+21));
       }
          //   virtuino.vDigitalMemoryWrite(8,0);
     // } 
@@ -467,7 +506,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In13[i]);
-        virtuino.vMemoryWrite(i+20, InValid13[i]);  
+        virtuino.vMemoryWrite(i+21, InValid13[i]);  
       }
       memoEcran=Ecran;
     }
@@ -476,7 +515,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In13[i]);
-        InValid13[i]=int(virtuino.vMemoryRead(i+20));
+        InValid13[i]=int(virtuino.vMemoryRead(i+21));
       }
           //  virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -488,7 +527,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In14[i]);
-        virtuino.vMemoryWrite(i+20, InValid14[i]);  
+        virtuino.vMemoryWrite(i+21, InValid14[i]);  
       }
       memoEcran=Ecran;
     }
@@ -497,7 +536,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In14[i]);
-        InValid14[i]=int(virtuino.vMemoryRead(i+20));
+        InValid14[i]=int(virtuino.vMemoryRead(i+21));
       }
             //virtuino.vDigitalMemoryWrite(8,0);
      // }
@@ -509,7 +548,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In15[i]);
-        virtuino.vMemoryWrite(i+20, InValid15[i]);
+        virtuino.vMemoryWrite(i+21, InValid15[i]);
  
       }
       memoEcran=Ecran;
@@ -519,7 +558,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In15[i]);
-        InValid15[i]=int(virtuino.vMemoryRead(i+20));
+        InValid15[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -532,7 +571,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In16[i]);
-        virtuino.vMemoryWrite(i+20, InValid16[i]);
+        virtuino.vMemoryWrite(i+21, InValid16[i]);
  
       }
       memoEcran=Ecran;
@@ -542,7 +581,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In16[i]);
-        InValid16[i]=int(virtuino.vMemoryRead(i+20));
+        InValid16[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -555,7 +594,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In17[i]);
-        virtuino.vMemoryWrite(i+20, InValid17[i]);
+        virtuino.vMemoryWrite(i+21, InValid17[i]);
  
       }
       memoEcran=Ecran;
@@ -565,7 +604,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In17[i]);
-        InValid17[i]=int(virtuino.vMemoryRead(i+20));
+        InValid17[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -578,7 +617,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In18[i]);
-        virtuino.vMemoryWrite(i+20, InValid18[i]);
+        virtuino.vMemoryWrite(i+21, InValid18[i]);
  
       }
       memoEcran=Ecran;
@@ -588,7 +627,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In18[i]);
-        InValid18[i]=int(virtuino.vMemoryRead(i+20));
+        InValid18[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -601,7 +640,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In19[i]);
-        virtuino.vMemoryWrite(i+20, InValid19[i]);
+        virtuino.vMemoryWrite(i+21, InValid19[i]);
  
       }
       memoEcran=Ecran;
@@ -611,7 +650,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In19[i]);
-        InValid19[i]=int(virtuino.vMemoryRead(i+20));
+        InValid19[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
@@ -624,7 +663,7 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In20[i]);
-        virtuino.vMemoryWrite(i+20, InValid20[i]);
+        virtuino.vMemoryWrite(i+21, InValid20[i]);
  
       }
       memoEcran=Ecran;
@@ -634,19 +673,14 @@ if (TDN[8]==1){
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In20[i]);
-        InValid20[i]=int(virtuino.vMemoryRead(i+20));
+        InValid20[i]=int(virtuino.vMemoryRead(i+21));
       }
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
 
     break; 
-    
-    
-    
-    
+      
  } 
-
- 
 
 }
 
@@ -663,17 +697,17 @@ void SDWrite() {
   CONFIG = SD.open("CONFIG.txt", FILE_WRITE);
 
   // if the file opened okay, write to it:
-  if (CONFIG) { Serial.println(" CONFIG s'ouvre en ecriture");
+  if (CONFIG) { //println(" CONFIG s'ouvre en ecriture");
 
     for (int i = 0; i <= Input[0]; i++) {
      
         //CONFIG.println(Input[i]);
-   Serial.println(Input[i]);
+   //Serial.println(Input[i]);
     }
     
   }
     
-   Serial.println(" CONFIG ne s'ouvre pas  en ecriture");
+   //Serial.println(" CONFIG ne s'ouvre pas  en ecriture");
     
     CONFIG.close();
   
@@ -686,17 +720,17 @@ void SDRead()
 {
   CONFIG = SD.open("CONFIG.txt", FILE_READ);
   Index = 1;
-      Serial.print("Debut:......"); 
-          Serial.println(CONFIG); 
+     // Serial.print("Debut:......"); 
+       //   Serial.println(CONFIG); 
   if (CONFIG) {
-    Serial.println(" CONFIG ouvert en lecture");
-    Serial.println("Debut:");   
+  //  Serial.println(" CONFIG ouvert en lecture");
+  //  Serial.println("Debut:");   
     while (CONFIG.available()) {
       octetReceptionProc = CONFIG.read();    
         //Serial.println(octetReceptionProc);
        if (octetReceptionProc == '/') {
           Input[Index] = (chaineReceptionProc.toInt());
-          Serial.println(Input[Index]);
+         // Serial.println(Input[Index]);
         Index++;
         chaineReceptionProc="";
       }
@@ -783,3 +817,7 @@ if (Condition) {
 *  long lastCommunicationTime;                                       Stores the last communication with Virtuino time
 *  void vDelay(long milliseconds); 
 */
+
+
+
+
