@@ -8,14 +8,17 @@
 #include <SPI.h>
 #include <SD.h>
 #include "TimerOne.h"
+#include <Timer.h>
 #include <VSync.h>
 #include "VirtuinoEthernet_WebServer.h"                           // Neccesary virtuino library for ethernet shield
-
+#include <Ethernet.h>
+#include "Settimino.h"
 //-----------------------------les declarations------------------------------------------------------------
 byte mac[] = {0x90, 0xA2, 0xDA, 0x0E, 0x05, 0xBD};                // Set the ethernet shield mac address.
-IPAddress ip(192, 168, 4, 10);                                   // Set the ethernet shield ip address. Check your gateway ip address first
+IPAddress Local(192, 168, 4, 10); 
+IPAddress PLC(192, 168, 4, 4); // PLC Address                                  // Set the ethernet shield ip address. Check your gateway ip address first
 VirtuinoEthernet_WebServer virtuino(8000);                          // default port=8000
-//--------------------------------
+//--------------------------------------------------------------------------------------------------------
 
 #define BPinitConf 7                                            //le bouton bousoir d'init est branché sur la pin 7
 #define bits      8
@@ -24,6 +27,7 @@ VirtuinoEthernet_WebServer virtuino(8000);                          // default p
 
 //  valueA and valueB are the incoming values
 //int VersArd0, VersArd1;
+int FirstScan = 1;
 
 char caractereReception;
 char octetReception;
@@ -37,8 +41,6 @@ int cpt;
 
 int Input[100];
 int In1[8];
-//int In1[bits], In2[bits], In3[bits], In4[bits], In5[bits], In6[bits], In7[bits], In8[bits], In9[bits], In10[bits];
-//int In11[bits], In12[bits], In13[bits], In14[bits], In15[bits], In16[bits], In17[bits], In18[bits], In19[bits], In20[bits];
 int InValid1[8];
 int In2[8];
 int InValid2[8];
@@ -94,12 +96,29 @@ int B3[100]; // ONS
 const byte SDCARD_CS_PIN = 4; // TODO A remplacer suivant votre shield SD
 File CONFIG; // fichier contenant les indexs des cartes input ex: I0/I1/I15/ fichier:0/1/15/
 int Index;
+File myFile;
 
+S7Client Client(_S7WIRED);;
+unsigned long Elapsed; // To calc the execution time
+byte Buffer[1024];
+int DBs;
+int Buf;
+String NumDB;
+int IndFile;
+int PasApas;
+int LU = 0;
+
+int SYNCHRO = 0;
+String TramTBL = "";
+int SQLecture = 0;
+int SQEcriture = 0;
+char charVal[10];
+
+int valMemo = 0, valTest = 0;
 
 //********************************************************************************************************
 void setup()
 {
-
   //sender.observe(VersArd0);
   //sender.observe(VersArd1);
 
@@ -125,7 +144,7 @@ pinMode(BPinitConf,INPUT);
    virtuino.DEBUG=false;                                                                                // Enable this line only if DEBUG=true
 
 // Mac adresse   
-  Ethernet.begin(mac, ip);
+  Ethernet.begin(mac, Local);
   virtuino.password="12345678"; 
   
 
@@ -141,13 +160,24 @@ pinMode(BPinitConf,INPUT);
   //Serial.println("OK1");  
   
   cpt=0;
-
+//--------------------------------Wired Ethernet Shield Initialization    
+    // Start the Ethernet Library
+    Ethernet.begin(mac, Local);
+    // Setup Time, someone said me to leave 2000 because some 
+    // rubbish compatible boards are a bit deaf.
+    delay(10000); 
+    Serial.println("");
+    Serial.println("Cable connected");  
+    Serial.print("Local IP address : ");
+    Serial.println(Ethernet.localIP());
 }
 
 //*******************************************************************************************************
 void loop()
 {
-Serial.println("test");
+// Communication S7
+ //Senttimino();
+
 // communication vers processing
 while (Serial.available() > 0) { // si un caractère en réception
     octetReception = Serial.read(); // lit le 1er octet de la file d'attente
@@ -188,6 +218,7 @@ while (Serial.available() > 0) { // si un caractère en réception
     if (!B3[1]) {
       B3[1] = 1;
     SDRead();    
+Serial.println("SDREAD***************************");
     }
   }
   else {
@@ -244,7 +275,6 @@ if (TDN[8]==1){
     if(int(virtuino.vMemoryRead(30))==18) Ecran=18;
     if(int(virtuino.vMemoryRead(30))==19) Ecran=19;
     if(int(virtuino.vMemoryRead(30))==20) Ecran=20;
-    
   }
   switch (Ecran) {
   case 0:
@@ -701,11 +731,48 @@ if (TDN[8]==1){
       
  } 
 
+ FirstScan = 0;
+
+ 
 }
 
+//===============================================================================================
+void Senttimino() {
+  int Size, Result;
+  void *Target;
+   
+  Size=1024;
+  Target = &Buffer; // Uses a larger buffer
 
+  
+  // Connection
+  while (!Client.Connected)
+  {
+    if (!Connect())
+      delay(500);
+  }
+  
+  //Serial.print("Reading ");Serial.print(Size);Serial.print(" bytes from DB");Serial.println(DBNum);
+  // Get the current tick
+  Serial.print("Reading ");
+  MarkTime();
+  Result=Client.ReadArea(S7AreaPE, // We are requesting DB access
+                         0,    // DB Number
+                         0,        // Start from byte N.0
+                         4,     // We need "Size" bytes
+                         Target);  // Put them into our target (Buffer or PDU)
+  if (Result==0)
+  {
+    ShowTime();
+    Dump(Target, Size);
+  }
+  else
+    CheckError(Result);
+    
+  //delay(500);  
+}
 
-//========================================================================================================
+//---------------------------------------------
 void SDWrite() {
   boolean RemoveFile;
   RemoveFile = SD.exists("CONFIG.txt");
@@ -766,6 +833,7 @@ void SDRead()
   }
 
 }
+
 //-----------------------
  void callback() {
 
@@ -775,6 +843,168 @@ void SDRead()
             //Serial.println(T[8]);
   }
   }
+  
+  //-------------------------
+void SDWriteFile() {
+  NumDB = "DB" + String(DBs, HEX) + ".TXT";
+
+  myFile = SD.open(NumDB, FILE_WRITE);
+  myFile.seek(0);
+  // if the file opened okay, write to it:
+  if (myFile) {
+
+    for (int i = 0; i <= IndFile; i++) {
+
+      myFile.println(Buffer[i]);
+    }
+    myFile.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    //Serial.println("error opening NumDB.txt/");
+  }
+  PasApas = 0;
+}
+
+//----------------------------
+void Lecture() {
+
+
+  if ((LU == 1) and (SYNCHRO == 1)) {
+    LU = 0;
+    TramTBL = "";
+
+    dtostrf( SQLecture, 1, 0, charVal);
+    TramTBL = TramTBL + "D01" +  charVal;
+    TramTBL = TramTBL + "F";
+
+    dtostrf( valMemo, 1, 0, charVal);
+    TramTBL = TramTBL + "D02" +  charVal;
+    TramTBL = TramTBL + "F";
+
+    dtostrf( valTest, 1, 0, charVal);
+    TramTBL = TramTBL + "D03" + charVal;
+    TramTBL = TramTBL + "F";
+
+    //Serial.print(TramTBL);
+    //Serial.println(TramTBL);
+
+  }
+  //delay(1);
+}//-------------------------------------------------
+
+//----------------------------------------------------------------------
+// Connects to the PLC
+//----------------------------------------------------------------------
+
+bool Connect()
+{
+    int Result=Client.ConnectTo(PLC, 
+                                  0,  // Rack (see the doc.)
+                                  0); // Slot (see the doc.)
+    Serial.print("Connecting to ");Serial.println(PLC);  
+    if (Result==0) 
+    {
+      Serial.print("Connected ! PDU Length = ");Serial.println(Client.GetPDULength());
+    }
+    else
+      Serial.println("Connection error");
+    return Result==0;
+} 
+  
+//----------------------------------------------------------------------
+// Buffer VERS plc
+//----------------------------------------------------------------------
+void DumpVersPLC(void *Buffer, int Length)
+{
+
+
+}
+
+//----------------------------------------------------------------------
+// Dumps a buffer
+//----------------------------------------------------------------------
+void Dump(void *Buffer, int Length)
+{
+  int i, cnt = 0;
+  pbyte buf;
+
+  if (Buffer != NULL)
+    buf = pbyte(Buffer);
+  else
+    buf = pbyte(&PDU.DATA[0]);
+
+  Serial.print("[ Dumping "); Serial.print(Length);
+  Serial.println(" bytes ]==========================");
+  IndFile = Length;
+  for (i = 0; i < Length; i++)
+  {
+    cnt++;
+    if (buf[i] < 0x10)
+      Serial.print("0");
+    Serial.print(buf[i], HEX);
+    Buf = buf[i];
+    Serial.print(" ");
+    if (cnt == 16)
+    {
+      cnt = 0;
+      Serial.println();
+    }
+  }
+  Serial.println("===============================================");
+}
+//----------------------------------------------------------------------
+// Prints the Error number
+//----------------------------------------------------------------------
+void CheckError(int ErrNo)
+{
+  Serial.print("Error No. 0x");
+  Serial.println(ErrNo, HEX);
+
+  // Checks if it's a Severe Error => we need to disconnect
+  if (ErrNo & 0x00FF)
+  {
+    Serial.println("SEVERE ERROR, disconnecting.");
+    Client.Disconnect();
+  }
+}
+//----------------------
+// Profiling routines
+//
+void MarkTime()
+{
+  Elapsed = millis();
+  // Calcs the time
+  Elapsed = millis() - Elapsed;
+  Serial.print("Job time (ms) : ");
+  Serial.println(Elapsed);
+}  
+  
+//----------------------------------------------------------------------
+void ShowTime()
+{
+  // Calcs the time
+  Elapsed=millis()-Elapsed;
+  Serial.print("Job time (ms) : ");
+  Serial.println(Elapsed);   
+}  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
