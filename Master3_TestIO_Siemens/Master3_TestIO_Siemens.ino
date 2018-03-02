@@ -98,6 +98,7 @@ File CONFIG; // fichier contenant les indexs des cartes input ex: I0/I1/I15/ fic
 int Index;
 File myFile;
 
+int IndexCarte=0;
 S7Client Client(_S7WIRED);;
 unsigned long Elapsed; // To calc the execution time
 byte Buffer[1024];
@@ -175,8 +176,7 @@ pinMode(BPinitConf,INPUT);
 //*******************************************************************************************************
 void loop()
 {
-// Communication S7
- //Senttimino();
+
 
 // communication vers processing
 while (Serial.available() > 0) { // si un caractère en réception
@@ -218,7 +218,7 @@ while (Serial.available() > 0) { // si un caractère en réception
     if (!B3[1]) {
       B3[1] = 1;
     SDRead();    
-Serial.println("SDREAD***************************");
+
     }
   }
   else {
@@ -236,9 +236,9 @@ Serial.println("SDREAD***************************");
     TDN[8] =  0.0;
     CptT[8] = false;
   }
-  if (T[8] >= 50) { // présélection de 600 donc 60 secondes
+  if (T[8] >= 1) { // présélection de 600 donc 60 secondes
     TDN[8] =  1.0;   // bit down
-    T[8] = 50;
+    T[8] = 1;
   }
 if (TDN[8]==1){
 
@@ -281,7 +281,15 @@ if (TDN[8]==1){
     // statements
     break;
     
-  case 1:
+  case 1: 
+               // Communication S7
+  virtuino.vMemoryWrite(31, Input[1]);
+  IndexCarte=Input[1];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In1[i]=bitRead(Buffer[0], i) ; 
+       }  
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -294,17 +302,29 @@ if (TDN[8]==1){
     }
     //if(virtuino.vDigitalMemoryRead(8))
     //{
+
+
+       
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In1[i]);
         InValid1[i]=int(virtuino.vMemoryRead(i+21));
       }
+
      // virtuino.vDigitalMemoryWrite(8,0);
       //}
 
     break;
     
   case 2:
+    // Communication S7
+  virtuino.vMemoryWrite(31, Input[2]);
+  IndexCarte=Input[2];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In2[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -326,6 +346,14 @@ if (TDN[8]==1){
     break;
     
   case 3:
+    // Communication S7
+  virtuino.vMemoryWrite(31, Input[3]);
+  IndexCarte=Input[3];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In3[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -347,6 +375,14 @@ if (TDN[8]==1){
     break;
     
   case 4:
+      // Communication S7
+  virtuino.vMemoryWrite(31, Input[4]);
+  IndexCarte=Input[4];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In4[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -368,6 +404,14 @@ if (TDN[8]==1){
     break;
     
       case 5:
+            // Communication S7
+  virtuino.vMemoryWrite(31, Input[5]);
+  IndexCarte=Input[5];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In5[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -391,6 +435,14 @@ if (TDN[8]==1){
     break;
     
       case 6:
+                  // Communication S7
+  virtuino.vMemoryWrite(31, Input[6]);
+  IndexCarte=Input[6];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In6[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -414,6 +466,14 @@ if (TDN[8]==1){
     break;
     
       case 7:
+                  // Communication S7
+  virtuino.vMemoryWrite(31, Input[7]);
+  IndexCarte=Input[7];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In7[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -437,6 +497,14 @@ if (TDN[8]==1){
     break;
     
       case 8:
+                  // Communication S7
+  virtuino.vMemoryWrite(31, Input[8]);
+  IndexCarte=Input[8];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In8[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -460,6 +528,14 @@ if (TDN[8]==1){
     break;
     
       case 9:
+            // Communication S7
+  virtuino.vMemoryWrite(31, Input[9]);
+  IndexCarte=Input[9];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In9[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -483,6 +559,15 @@ if (TDN[8]==1){
     break;
     
       case 10:
+                 // Communication S7
+  virtuino.vMemoryWrite(31, Input[10]);
+  IndexCarte=Input[10];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In10[i]=bitRead(Buffer[0], i) ; 
+       }
+      
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -506,6 +591,15 @@ if (TDN[8]==1){
     break;
     
      case 11:
+  // Communication S7
+  virtuino.vMemoryWrite(31, Input[11]);
+  IndexCarte=Input[11];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In11[i]=bitRead(Buffer[0], i) ; 
+       }
+       
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -529,6 +623,14 @@ if (TDN[8]==1){
     break;
     
   case 12:
+                   // Communication S7
+  virtuino.vMemoryWrite(31, Input[12]);
+  IndexCarte=Input[12];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In12[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -550,6 +652,14 @@ if (TDN[8]==1){
     break;
     
   case 13:
+                   // Communication S7
+  virtuino.vMemoryWrite(31, Input[13]);
+  IndexCarte=Input[13];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In13[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -571,6 +681,14 @@ if (TDN[8]==1){
     break;
     
   case 14:
+                   // Communication S7
+  virtuino.vMemoryWrite(31, Input[14]);
+  IndexCarte=Input[14];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In14[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -592,6 +710,14 @@ if (TDN[8]==1){
     break;
     
       case 15:
+                       // Communication S7
+  virtuino.vMemoryWrite(31, Input[15]);
+  IndexCarte=Input[15];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In15[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -615,6 +741,14 @@ if (TDN[8]==1){
     break;
     
       case 16:
+                       // Communication S7
+  virtuino.vMemoryWrite(31, Input[16]);
+  IndexCarte=Input[16];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In16[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -638,6 +772,14 @@ if (TDN[8]==1){
     break;
     
       case 17:
+                       // Communication S7
+  virtuino.vMemoryWrite(31, Input[17]);
+  IndexCarte=Input[17];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In17[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -661,6 +803,14 @@ if (TDN[8]==1){
     break;
     
       case 18:
+                       // Communication S7
+  virtuino.vMemoryWrite(31, Input[18]);
+  IndexCarte=Input[18];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In18[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -684,6 +834,14 @@ if (TDN[8]==1){
     break;
     
       case 19:
+                       // Communication S7
+  virtuino.vMemoryWrite(31, Input[19]);
+  IndexCarte=Input[19];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In19[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -707,6 +865,14 @@ if (TDN[8]==1){
     break;
     
       case 20:
+                       // Communication S7
+  virtuino.vMemoryWrite(31, Input[20]);
+  IndexCarte=Input[20];
+        Senttimino();
+        for(i=0;i<8;i++)
+        {
+          In20[i]=bitRead(Buffer[0], i) ; 
+       }
     if(Ecran!=memoEcran)
     {
       for(i=0;i<8;i++)
@@ -749,7 +915,7 @@ void Senttimino() {
   while (!Client.Connected)
   {
     if (!Connect())
-      delay(500);
+      delay(1);
   }
   
   //Serial.print("Reading ");Serial.print(Size);Serial.print(" bytes from DB");Serial.println(DBNum);
@@ -758,18 +924,19 @@ void Senttimino() {
   MarkTime();
   Result=Client.ReadArea(S7AreaPE, // We are requesting DB access
                          0,    // DB Number
-                         0,        // Start from byte N.0
-                         4,     // We need "Size" bytes
+                         IndexCarte,        // Start from byte N.0
+                         1,     // We need "Size" bytes
                          Target);  // Put them into our target (Buffer or PDU)
   if (Result==0)
   {
     ShowTime();
     Dump(Target, Size);
   }
-  else
+  else {
     CheckError(Result);
     
   //delay(500);  
+  }
 }
 
 //---------------------------------------------
