@@ -907,7 +907,7 @@ void Senttimino() {
   int Size, Result;
   void *Target;
    
-  Size=1024;
+  Size=1;
   Target = &Buffer; // Uses a larger buffer
 
   
