@@ -97,6 +97,27 @@ const byte SDCARD_CS_PIN = 4; // TODO A remplacer suivant votre shield SD
 File CONFIG; // fichier contenant les indexs des cartes input ex: I0/I1/I15/ fichier:0/1/15/
 int Index;
 File myFile;
+int IndexValid;
+File InValid1File;
+File InValid2File;
+File InValid3File;
+File InValid4File;
+File InValid5File;
+File InValid6File;
+File InValid7File;
+File InValid8File;
+File InValid9File;
+File InValid10File;
+File InValid11File;
+File InValid12File;
+File InValid13File;
+File InValid14File;
+File InValid15File;
+File InValid16File;
+File InValid17File;
+File InValid18File;
+File InValid19File;
+File InValid20File;
 
 int IndexCarte=0;
 S7Client Client(_S7WIRED);;
@@ -130,8 +151,6 @@ void setup()
  Timer1.initialize(100000);         // initialize timer1
   Timer1.attachInterrupt(callback);
 
-
-  
 // Pin 7 -> BP init fichier CONFIG
 pinMode(BPinitConf,INPUT);
 
@@ -282,7 +301,7 @@ if (TDN[8]==1){
     break;
     
   case 1: 
-               // Communication S7
+  // Communication S7
   virtuino.vMemoryWrite(31, Input[1]);
   IndexCarte=Input[1];
         Senttimino();
@@ -300,19 +319,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
-
-
-       
+   
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In1[i]);
         InValid1[i]=int(virtuino.vMemoryRead(i+21));
       }
-
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+    if(virtuino.vDigitalMemoryRead(8))
+    {
+SDWriteFile1();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -334,15 +351,18 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{    
+  
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In2[i]);
         InValid2[i]=int(virtuino.vMemoryRead(i+21));
       }
-         //   virtuino.vDigitalMemoryWrite(8,0);
-    // } 
+    if(virtuino.vDigitalMemoryRead(8))
+    {
+SDWriteFile2();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
+
     break;
     
   case 3:
@@ -363,15 +383,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-        //if(virtuino.vDigitalMemoryRead(8))
-       // {
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In3[i]);
         InValid3[i]=int(virtuino.vMemoryRead(i+21));
       }
-          //  virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {
+SDWriteFile3();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
     break;
     
   case 4:
@@ -392,15 +414,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In4[i]);
         InValid4[i]=int(virtuino.vMemoryRead(i+21));
       }
-            //virtuino.vDigitalMemoryWrite(8,0);
-     // }
+          if(virtuino.vDigitalMemoryRead(8))
+          {
+SDWriteFile4();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
     break;
     
       case 5:
@@ -422,15 +446,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In5[i]);
         InValid5[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile5();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -453,15 +479,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In6[i]);
         InValid6[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile6();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -484,15 +512,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In7[i]);
         InValid7[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+                if(virtuino.vDigitalMemoryRead(8))
+          {
+SDWriteFile7();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -515,15 +545,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In8[i]);
         InValid8[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+                if(virtuino.vDigitalMemoryRead(8))
+          {
+SDWriteFile8();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -546,15 +578,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In9[i]);
         InValid9[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile9();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -578,15 +612,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In10[i]);
         InValid10[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile10();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -610,15 +646,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In11[i]);
         InValid11[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile11();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -640,15 +678,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{    
+   
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In12[i]);
         InValid12[i]=int(virtuino.vMemoryRead(i+21));
       }
-         //   virtuino.vDigitalMemoryWrite(8,0);
-    // } 
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile12();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
     break;
     
   case 13:
@@ -669,15 +709,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-        //if(virtuino.vDigitalMemoryRead(8))
-       // {
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In13[i]);
         InValid13[i]=int(virtuino.vMemoryRead(i+21));
       }
-          //  virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile13();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
     break;
     
   case 14:
@@ -698,15 +740,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In14[i]);
         InValid14[i]=int(virtuino.vMemoryRead(i+21));
       }
-            //virtuino.vDigitalMemoryWrite(8,0);
-     // }
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile14();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
     break;
     
       case 15:
@@ -728,15 +772,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In15[i]);
         InValid15[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile15();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -759,15 +805,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In16[i]);
         InValid16[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile16();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -790,15 +838,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In17[i]);
         InValid17[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile17();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -821,15 +871,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In18[i]);
         InValid18[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+                if(virtuino.vDigitalMemoryRead(8))
+          {
+SDWriteFile18();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -852,15 +904,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In19[i]);
         InValid19[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+          if(virtuino.vDigitalMemoryRead(8))
+          {      
+SDWriteFile19();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break;
     
@@ -883,15 +937,17 @@ if (TDN[8]==1){
       }
       memoEcran=Ecran;
     }
-    //if(virtuino.vDigitalMemoryRead(8))
-    //{
+
       for(i=0;i<8;i++)
       {
         virtuino.vDigitalMemoryWrite(i, In20[i]);
         InValid20[i]=int(virtuino.vMemoryRead(i+21));
       }
-     // virtuino.vDigitalMemoryWrite(8,0);
-      //}
+                if(virtuino.vDigitalMemoryRead(8))
+          {
+SDWriteFile20();
+      virtuino.vDigitalMemoryWrite(8,0);
+      }
 
     break; 
       
@@ -920,7 +976,7 @@ void Senttimino() {
   
   //Serial.print("Reading ");Serial.print(Size);Serial.print(" bytes from DB");Serial.println(DBNum);
   // Get the current tick
-  Serial.print("Reading ");
+  //Serial.print("Reading ");
   MarkTime();
   Result=Client.ReadArea(S7AreaPE, // We are requesting DB access
                          0,    // DB Number
@@ -939,44 +995,18 @@ void Senttimino() {
   }
 }
 
-//---------------------------------------------
-void SDWrite() {
-  boolean RemoveFile;
-  RemoveFile = SD.exists("CONFIG.txt");
-
-  if (RemoveFile) {
-    SD.remove("CONFIG.txt");
-  }
-  CONFIG = SD.open("CONFIG.txt", FILE_WRITE);
-
-  // if the file opened okay, write to it:
-  if (CONFIG) { //println(" CONFIG s'ouvre en ecriture");
-
-    for (int i = 0; i <= Input[0]; i++) {
-     
-        //CONFIG.println(Input[i]);
-   //Serial.println(Input[i]);
-    }
-    
-  }
-    
-   //Serial.println(" CONFIG ne s'ouvre pas  en ecriture");
-    
-    CONFIG.close();
-  
-  
-}
 //-----------------------------------------------
 //Lecture Config IN index des cartes INPUT[] à partir de l'index 1
 // fichier CONFIG 0/1/12/  -> Input[1]=0;Input[2]=1; Input[3]=12;  
 void SDRead()
 {
+// Lecture fichier Input[]
   CONFIG = SD.open("CONFIG.txt", FILE_READ);
   Index = 1;
-     // Serial.print("Debut:......"); 
-       //   Serial.println(CONFIG); 
+      Serial.print("Debut:......"); 
+          Serial.println(CONFIG); 
   if (CONFIG) {
-  //  Serial.println(" CONFIG ouvert en lecture");
+    Serial.println(" CONFIG ouvert en lecture");
   //  Serial.println("Debut:");   
     while (CONFIG.available()) {
       octetReceptionProc = CONFIG.read();    
@@ -996,11 +1026,37 @@ void SDRead()
     // close the file:
     Input[0]=Index;
     CONFIG.close();
-  } else {
   }
+  
 
+ // Lecture fichier InValid1[]
+  InValid1File = SD.open("InValid1.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid1File); 
+  if (InValid1File) {
+    Serial.println(" InValid1File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid1File.available()) {
+      octetReceptionProc = InValid1File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid1[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid1[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid1File.close();
+  }
+ 
 }
-
 //-----------------------
  void callback() {
 
@@ -1012,27 +1068,444 @@ void SDRead()
   }
   
   //-------------------------
-void SDWriteFile() {
-  NumDB = "DB" + String(DBs, HEX) + ".TXT";
+void SDWriteFile1() {
+  SD.remove("InValid1.txt");
+  InValid1File = SD.open("InValid1.txt", FILE_WRITE);
+  InValid1File.seek(0);
+  Serial.print("InValid1");Serial.println(InValid1File);
+  if (InValid1File) {
 
-  myFile = SD.open(NumDB, FILE_WRITE);
-  myFile.seek(0);
-  // if the file opened okay, write to it:
-  if (myFile) {
-
-    for (int i = 0; i <= IndFile; i++) {
-
-      myFile.println(Buffer[i]);
+    for (int i = 0; i <8; i++) {
+     
+        InValid1File.print(InValid1[i]);
+        InValid1File.print("/");
+   Serial.print(InValid1[i]);
     }
-    myFile.close();
+    InValid1File.close();
   }
   else {
     // if the file didn't open, print an error:
-    //Serial.println("error opening NumDB.txt/");
+    Serial.println("error opening FILE");
   }
-  PasApas = 0;
+}
+ //-------------------------
+void SDWriteFile2() {
+  SD.remove("InValid2.txt");
+  InValid2File = SD.open("InValid2.txt", FILE_WRITE);
+  InValid2File.seek(0);
+  Serial.print("InValid2");Serial.println(InValid2File);
+  if (InValid2File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid2File.print(InValid2[i]);
+        InValid2File.print("/");
+   Serial.print(InValid2[i]);
+    }
+    InValid2File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
 }
 
+//-------------------------
+void SDWriteFile3() {
+  SD.remove("InValid3.txt");
+  InValid3File = SD.open("InValid3.txt", FILE_WRITE);
+  InValid3File.seek(0);
+  Serial.print("InValid3");Serial.println(InValid3File);
+  if (InValid3File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid3File.print(InValid3[i]);
+        InValid3File.print("/");
+   Serial.print(InValid3[i]);
+    }
+    InValid3File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile4() {
+  SD.remove("InValid4.txt");
+  InValid4File = SD.open("InValid4.txt", FILE_WRITE);
+  InValid4File.seek(0);
+  Serial.print("InValid4");Serial.println(InValid4File);
+  if (InValid4File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid4File.print(InValid4[i]);
+        InValid4File.print("/");
+   Serial.print(InValid4[i]);
+    }
+    InValid4File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+}
+//-------------------------
+void SDWriteFile5() {
+  SD.remove("InValid5.txt");
+  InValid5File = SD.open("InValid5.txt", FILE_WRITE);
+  InValid5File.seek(0);
+  Serial.print("InValid5");Serial.println(InValid5File);
+  if (InValid5File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid5File.print(InValid5[i]);
+        InValid5File.print("/");
+   Serial.print(InValid5[i]);
+    }
+    InValid5File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+}
+
+//-------------------------
+void SDWriteFile6() {
+  SD.remove("InValid6.txt");
+  InValid6File = SD.open("InValid6.txt", FILE_WRITE);
+  InValid6File.seek(0);
+  Serial.print("InValid6");Serial.println(InValid6File);
+  if (InValid6File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid6File.print(InValid6[i]);
+        InValid6File.print("/");
+   Serial.print(InValid6[i]);
+    }
+    InValid6File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile7() {
+  SD.remove("InValid7.txt");
+  InValid7File = SD.open("InValid7.txt", FILE_WRITE);
+  InValid7File.seek(0);
+  Serial.print("InValid7");Serial.println(InValid7File);
+  if (InValid7File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid7File.print(InValid7[i]);
+        InValid7File.print("/");
+   Serial.print(InValid7[i]);
+    }
+    InValid7File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile8() {
+  SD.remove("InValid8.txt");
+  InValid8File = SD.open("InValid8.txt", FILE_WRITE);
+  InValid8File.seek(0);
+  Serial.print("InValid8");Serial.println(InValid8File);
+  if (InValid8File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid8File.print(InValid8[i]);
+        InValid8File.print("/");
+   Serial.print(InValid8[i]);
+    }
+    InValid8File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile9() {
+  SD.remove("InValid9.txt");
+  InValid9File = SD.open("InValid9.txt", FILE_WRITE);
+  InValid9File.seek(0);
+  Serial.print("InValid9");Serial.println(InValid9File);
+  if (InValid9File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid9File.print(InValid9[i]);
+        InValid9File.print("/");
+   Serial.print(InValid9[i]);
+    }
+    InValid9File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile10() {
+  SD.remove("InValid10.txt");
+  InValid10File = SD.open("InValid10.txt", FILE_WRITE);
+  InValid10File.seek(0);
+  Serial.print("InValid10");Serial.println(InValid10File);
+  if (InValid10File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid10File.print(InValid10[i]);
+        InValid10File.print("/");
+   Serial.print(InValid10[i]);
+    }
+    InValid10File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+}
+
+//-------------------------
+void SDWriteFile11() {
+  SD.remove("InValid11.txt");
+  InValid11File = SD.open("InValid11.txt", FILE_WRITE);
+  InValid11File.seek(0);
+  Serial.print("InValid11");Serial.println(InValid11File);
+  if (InValid11File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid11File.print(InValid11[i]);
+        InValid11File.print("/");
+   Serial.print(InValid11[i]);
+    }
+    InValid11File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile12() {
+  SD.remove("InValid12.txt");
+  InValid12File = SD.open("InValid12.txt", FILE_WRITE);
+  InValid12File.seek(0);
+  Serial.print("InValid12");Serial.println(InValid12File);
+  if (InValid12File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid12File.print(InValid12[i]);
+        InValid12File.print("/");
+   Serial.print(InValid12[i]);
+    }
+    InValid12File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+}
+
+//-------------------------
+void SDWriteFile13() {
+  SD.remove("InValid13.txt");
+  InValid13File = SD.open("InValid13.txt", FILE_WRITE);
+  InValid13File.seek(0);
+  Serial.print("InValid13");Serial.println(InValid13File);
+  if (InValid13File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid13File.print(InValid13[i]);
+        InValid13File.print("/");
+   Serial.print(InValid13[i]);
+    }
+    InValid13File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile14() {
+  SD.remove("InValid14.txt");
+  InValid14File = SD.open("InValid14.txt", FILE_WRITE);
+  InValid14File.seek(0);
+  Serial.print("InValid14");Serial.println(InValid14File);
+  if (InValid14File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid14File.print(InValid14[i]);
+        InValid14File.print("/");
+   Serial.print(InValid14[i]);
+    }
+    InValid14File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+}
+
+//-------------------------
+void SDWriteFile15() {
+  SD.remove("InValid15.txt");
+  InValid15File = SD.open("InValid15.txt", FILE_WRITE);
+  InValid15File.seek(0);
+  Serial.print("InValid15");Serial.println(InValid15File);
+  if (InValid15File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid15File.print(InValid15[i]);
+        InValid15File.print("/");
+   Serial.print(InValid15[i]);
+    }
+    InValid15File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile16() {
+  SD.remove("InValid16.txt");
+  InValid16File = SD.open("InValid16.txt", FILE_WRITE);
+  InValid16File.seek(0);
+  Serial.print("InValid16");Serial.println(InValid16File);
+  if (InValid16File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid16File.print(InValid16[i]);
+        InValid16File.print("/");
+   Serial.print(InValid16[i]);
+    }
+    InValid16File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+}
+
+//-------------------------
+void SDWriteFile17() {
+  SD.remove("InValid17.txt");
+  InValid17File = SD.open("InValid17.txt", FILE_WRITE);
+  InValid17File.seek(0);
+  Serial.print("InValid17");Serial.println(InValid17File);
+  if (InValid17File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid17File.print(InValid17[i]);
+        InValid17File.print("/");
+   Serial.print(InValid17[i]);
+    }
+    InValid17File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+}
+
+//-------------------------
+void SDWriteFile18() {
+  SD.remove("InValid18.txt");
+  InValid18File = SD.open("InValid18.txt", FILE_WRITE);
+  InValid18File.seek(0);
+  Serial.print("InValid18");Serial.println(InValid18File);
+  if (InValid18File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid18File.print(InValid18[i]);
+        InValid18File.print("/");
+   Serial.print(InValid18[i]);
+    }
+    InValid18File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile19() {
+  SD.remove("InValid19.txt");
+  InValid19File = SD.open("InValid19.txt", FILE_WRITE);
+  InValid19File.seek(0);
+  Serial.print("InValid19");Serial.println(InValid19File);
+  if (InValid19File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid19File.print(InValid19[i]);
+        InValid19File.print("/");
+   Serial.print(InValid19[i]);
+    }
+    InValid19File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+
+}
+//-------------------------
+void SDWriteFile20() {
+  SD.remove("InValid20.txt");
+  InValid20File = SD.open("InValid20.txt", FILE_WRITE);
+  InValid20File.seek(0);
+  Serial.print("InValid20");Serial.println(InValid20File);
+  if (InValid20File) {
+
+    for (int i = 0; i <8; i++) {
+     
+        InValid20File.print(InValid20[i]);
+        InValid20File.print("/");
+   Serial.print(InValid20[i]);
+    }
+    InValid20File.close();
+  }
+  else {
+    // if the file didn't open, print an error:
+    Serial.println("error opening FILE");
+  }
+}
+
+ //-------------------------
 //----------------------------
 void Lecture() {
 
@@ -1058,7 +1531,8 @@ void Lecture() {
 
   }
   //delay(1);
-}//-------------------------------------------------
+}
+
 
 //----------------------------------------------------------------------
 // Connects to the PLC
@@ -1101,24 +1575,24 @@ void Dump(void *Buffer, int Length)
   else
     buf = pbyte(&PDU.DATA[0]);
 
-  Serial.print("[ Dumping "); Serial.print(Length);
-  Serial.println(" bytes ]==========================");
+  //Serial.print("[ Dumping "); Serial.print(Length);
+  //Serial.println(" bytes ]==========================");
   IndFile = Length;
   for (i = 0; i < Length; i++)
   {
     cnt++;
     if (buf[i] < 0x10)
-      Serial.print("0");
-    Serial.print(buf[i], HEX);
+      //Serial.print("0");
+    //Serial.print(buf[i], HEX);
     Buf = buf[i];
-    Serial.print(" ");
+    //Serial.print(" ");
     if (cnt == 16)
     {
       cnt = 0;
-      Serial.println();
+      //Serial.println();
     }
   }
-  Serial.println("===============================================");
+  //Serial.println("===============================================");
 }
 //----------------------------------------------------------------------
 // Prints the Error number
@@ -1143,8 +1617,8 @@ void MarkTime()
   Elapsed = millis();
   // Calcs the time
   Elapsed = millis() - Elapsed;
-  Serial.print("Job time (ms) : ");
-  Serial.println(Elapsed);
+  //Serial.print("Job time (ms) : ");
+  //Serial.println(Elapsed);
 }  
   
 //----------------------------------------------------------------------
@@ -1152,8 +1626,8 @@ void ShowTime()
 {
   // Calcs the time
   Elapsed=millis()-Elapsed;
-  Serial.print("Job time (ms) : ");
-  Serial.println(Elapsed);   
+  //Serial.print("Job time (ms) : ");
+  //Serial.println(Elapsed);   
 }  
   
   
