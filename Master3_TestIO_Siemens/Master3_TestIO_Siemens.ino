@@ -1030,7 +1030,7 @@ void SDRead()
   
 
  // Lecture fichier InValid1[]
-  InValid1File = SD.open("InValid1.txt", FILE_READ);
+  InValid1File = SD.open("InVal1.txt", FILE_READ);
   IndexValid = 0;
       Serial.print("Debut:......"); 
           Serial.println(InValid1File); 
@@ -1056,6 +1056,494 @@ void SDRead()
     InValid1File.close();
   }
  
+  // Lecture fichier InValid20[]
+  InValid20File = SD.open("InVal20.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid20File); 
+  if (InValid20File) {
+    Serial.println(" InValid20File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid20File.available()) {
+      octetReceptionProc = InValid20File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid20[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid20[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid20File.close();
+  }
+  
+  // Lecture fichier InValid19[]
+  InValid19File = SD.open("InVal19.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid19File); 
+  if (InValid19File) {
+    Serial.println(" InValid19File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid19File.available()) {
+      octetReceptionProc = InValid19File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid19[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid19[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid19File.close();
+  }
+  
+  // Lecture fichier InValid18[]
+  InValid18File = SD.open("InVal18.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid18File); 
+  if (InValid18File) {
+    Serial.println(" InValid18File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid18File.available()) {
+      octetReceptionProc = InValid18File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid18[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid18[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid18File.close();
+  }
+  
+  // Lecture fichier InValid17[]
+  InValid17File = SD.open("InVal17.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid17File); 
+  if (InValid17File) {
+    Serial.println(" InValid17File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid17File.available()) {
+      octetReceptionProc = InValid17File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid17[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid17[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid17File.close();
+  }
+  
+  // Lecture fichier InValid16[]
+  InValid16File = SD.open("InVal16.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid16File); 
+  if (InValid16File) {
+    Serial.println(" InValid16File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid16File.available()) {
+      octetReceptionProc = InValid16File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid16[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid16[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid16File.close();
+  }
+  
+  // Lecture fichier InValid15[]
+  InValid15File = SD.open("InVal15.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid15File); 
+  if (InValid15File) {
+    Serial.println(" InValid15File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid15File.available()) {
+      octetReceptionProc = InValid15File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid15[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid15[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid15File.close();
+  }
+  
+  // Lecture fichier InValid14[]
+  InValid14File = SD.open("InVal14.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid14File); 
+  if (InValid14File) {
+    Serial.println(" InValid14File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid14File.available()) {
+      octetReceptionProc = InValid14File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid14[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid14[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid14File.close();
+  }
+  
+  // Lecture fichier InValid13[]
+  InValid13File = SD.open("InVal13.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid13File); 
+  if (InValid13File) {
+    Serial.println(" InValid13File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid13File.available()) {
+      octetReceptionProc = InValid13File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid13[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid13[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid13File.close();
+  }
+  
+  // Lecture fichier InValid12[]
+  InValid12File = SD.open("InVal12.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid12File); 
+  if (InValid12File) {
+    Serial.println(" InValid12File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid12File.available()) {
+      octetReceptionProc = InValid12File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid12[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid12[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid12File.close();
+  }
+  
+  // Lecture fichier InValid11[]
+  InValid11File = SD.open("InVal11.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid11File); 
+  if (InValid11File) {
+    Serial.println(" InValid11File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid11File.available()) {
+      octetReceptionProc = InValid11File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid11[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid11[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid11File.close();
+  }
+  
+  // Lecture fichier InValid10[]
+  InValid10File = SD.open("InVal10.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid10File); 
+  if (InValid10File) {
+    Serial.println(" InValid10File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid10File.available()) {
+      octetReceptionProc = InValid10File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid10[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid10[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid10File.close();
+  }
+  
+  // Lecture fichier InValid9[]
+  InValid9File = SD.open("InVal9.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid9File); 
+  if (InValid9File) {
+    Serial.println(" InValid9File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid9File.available()) {
+      octetReceptionProc = InValid9File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid9[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid9[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid9File.close();
+  }
+  
+  // Lecture fichier InValid8[]
+  InValid8File = SD.open("InVal8.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid8File); 
+  if (InValid8File) {
+    Serial.println(" InValid8File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid8File.available()) {
+      octetReceptionProc = InValid8File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid8[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid8[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid8File.close();
+  }
+  
+  // Lecture fichier InValid7[]
+  InValid7File = SD.open("InVal7.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid7File); 
+  if (InValid7File) {
+    Serial.println(" InValid7File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid7File.available()) {
+      octetReceptionProc = InValid7File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid7[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid7[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid7File.close();
+  }
+  
+  // Lecture fichier InValid6[]
+  InValid6File = SD.open("InVal6.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid6File); 
+  if (InValid6File) {
+    Serial.println(" InValid6File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid6File.available()) {
+      octetReceptionProc = InValid6File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid6[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid6[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid6File.close();
+  }
+  
+  // Lecture fichier InValid5[]
+  InValid5File = SD.open("InVal5.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid5File); 
+  if (InValid5File) {
+    Serial.println(" InValid5File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid5File.available()) {
+      octetReceptionProc = InValid5File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid5[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid5[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid5File.close();
+  }
+  
+  // Lecture fichier InValid4[]
+  InValid4File = SD.open("InVal4.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid4File); 
+  if (InValid4File) {
+    Serial.println(" InValid4File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid4File.available()) {
+      octetReceptionProc = InValid4File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid4[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid4[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid4File.close();
+  }
+  
+  // Lecture fichier InValid3[]
+  InValid3File = SD.open("InVal3.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid3File); 
+  if (InValid3File) {
+    Serial.println(" InValid3File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid3File.available()) {
+      octetReceptionProc = InValid3File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid3[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid3[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid3File.close();
+  }
+  
+  
+  
 }
 //-----------------------
  void callback() {
@@ -1069,8 +1557,8 @@ void SDRead()
   
   //-------------------------
 void SDWriteFile1() {
-  SD.remove("InValid1.txt");
-  InValid1File = SD.open("InValid1.txt", FILE_WRITE);
+  SD.remove("InVal1.txt");
+  InValid1File = SD.open("InVal1.txt", FILE_WRITE);
   InValid1File.seek(0);
   Serial.print("InValid1");Serial.println(InValid1File);
   if (InValid1File) {
@@ -1090,8 +1578,8 @@ void SDWriteFile1() {
 }
  //-------------------------
 void SDWriteFile2() {
-  SD.remove("InValid2.txt");
-  InValid2File = SD.open("InValid2.txt", FILE_WRITE);
+  SD.remove("InVal2.txt");
+  InValid2File = SD.open("InVal2.txt", FILE_WRITE);
   InValid2File.seek(0);
   Serial.print("InValid2");Serial.println(InValid2File);
   if (InValid2File) {
@@ -1112,8 +1600,8 @@ void SDWriteFile2() {
 
 //-------------------------
 void SDWriteFile3() {
-  SD.remove("InValid3.txt");
-  InValid3File = SD.open("InValid3.txt", FILE_WRITE);
+  SD.remove("InVal3.txt");
+  InValid3File = SD.open("InVal3.txt", FILE_WRITE);
   InValid3File.seek(0);
   Serial.print("InValid3");Serial.println(InValid3File);
   if (InValid3File) {
@@ -1134,8 +1622,8 @@ void SDWriteFile3() {
 }
 //-------------------------
 void SDWriteFile4() {
-  SD.remove("InValid4.txt");
-  InValid4File = SD.open("InValid4.txt", FILE_WRITE);
+  SD.remove("InVal4.txt");
+  InValid4File = SD.open("InVal4.txt", FILE_WRITE);
   InValid4File.seek(0);
   Serial.print("InValid4");Serial.println(InValid4File);
   if (InValid4File) {
@@ -1155,8 +1643,8 @@ void SDWriteFile4() {
 }
 //-------------------------
 void SDWriteFile5() {
-  SD.remove("InValid5.txt");
-  InValid5File = SD.open("InValid5.txt", FILE_WRITE);
+  SD.remove("InVal5.txt");
+  InValid5File = SD.open("InVal5.txt", FILE_WRITE);
   InValid5File.seek(0);
   Serial.print("InValid5");Serial.println(InValid5File);
   if (InValid5File) {
@@ -1177,8 +1665,8 @@ void SDWriteFile5() {
 
 //-------------------------
 void SDWriteFile6() {
-  SD.remove("InValid6.txt");
-  InValid6File = SD.open("InValid6.txt", FILE_WRITE);
+  SD.remove("InVal6.txt");
+  InValid6File = SD.open("InVal6.txt", FILE_WRITE);
   InValid6File.seek(0);
   Serial.print("InValid6");Serial.println(InValid6File);
   if (InValid6File) {
@@ -1199,8 +1687,8 @@ void SDWriteFile6() {
 }
 //-------------------------
 void SDWriteFile7() {
-  SD.remove("InValid7.txt");
-  InValid7File = SD.open("InValid7.txt", FILE_WRITE);
+  SD.remove("InVal7.txt");
+  InValid7File = SD.open("InVal7.txt", FILE_WRITE);
   InValid7File.seek(0);
   Serial.print("InValid7");Serial.println(InValid7File);
   if (InValid7File) {
@@ -1221,8 +1709,8 @@ void SDWriteFile7() {
 }
 //-------------------------
 void SDWriteFile8() {
-  SD.remove("InValid8.txt");
-  InValid8File = SD.open("InValid8.txt", FILE_WRITE);
+  SD.remove("InVal8.txt");
+  InValid8File = SD.open("InVal8.txt", FILE_WRITE);
   InValid8File.seek(0);
   Serial.print("InValid8");Serial.println(InValid8File);
   if (InValid8File) {
@@ -1243,8 +1731,8 @@ void SDWriteFile8() {
 }
 //-------------------------
 void SDWriteFile9() {
-  SD.remove("InValid9.txt");
-  InValid9File = SD.open("InValid9.txt", FILE_WRITE);
+  SD.remove("InVal9.txt");
+  InValid9File = SD.open("InVal9.txt", FILE_WRITE);
   InValid9File.seek(0);
   Serial.print("InValid9");Serial.println(InValid9File);
   if (InValid9File) {
@@ -1265,8 +1753,8 @@ void SDWriteFile9() {
 }
 //-------------------------
 void SDWriteFile10() {
-  SD.remove("InValid10.txt");
-  InValid10File = SD.open("InValid10.txt", FILE_WRITE);
+  SD.remove("InVal10.txt");
+  InValid10File = SD.open("InVal10.txt", FILE_WRITE);
   InValid10File.seek(0);
   Serial.print("InValid10");Serial.println(InValid10File);
   if (InValid10File) {
@@ -1287,8 +1775,8 @@ void SDWriteFile10() {
 
 //-------------------------
 void SDWriteFile11() {
-  SD.remove("InValid11.txt");
-  InValid11File = SD.open("InValid11.txt", FILE_WRITE);
+  SD.remove("InVal11.txt");
+  InValid11File = SD.open("InVal11.txt", FILE_WRITE);
   InValid11File.seek(0);
   Serial.print("InValid11");Serial.println(InValid11File);
   if (InValid11File) {
@@ -1309,8 +1797,8 @@ void SDWriteFile11() {
 }
 //-------------------------
 void SDWriteFile12() {
-  SD.remove("InValid12.txt");
-  InValid12File = SD.open("InValid12.txt", FILE_WRITE);
+  SD.remove("InVal12.txt");
+  InValid12File = SD.open("InVal12.txt", FILE_WRITE);
   InValid12File.seek(0);
   Serial.print("InValid12");Serial.println(InValid12File);
   if (InValid12File) {
@@ -1331,8 +1819,8 @@ void SDWriteFile12() {
 
 //-------------------------
 void SDWriteFile13() {
-  SD.remove("InValid13.txt");
-  InValid13File = SD.open("InValid13.txt", FILE_WRITE);
+  SD.remove("InVal13.txt");
+  InValid13File = SD.open("InVal13.txt", FILE_WRITE);
   InValid13File.seek(0);
   Serial.print("InValid13");Serial.println(InValid13File);
   if (InValid13File) {
@@ -1353,8 +1841,8 @@ void SDWriteFile13() {
 }
 //-------------------------
 void SDWriteFile14() {
-  SD.remove("InValid14.txt");
-  InValid14File = SD.open("InValid14.txt", FILE_WRITE);
+  SD.remove("InVal14.txt");
+  InValid14File = SD.open("InVal14.txt", FILE_WRITE);
   InValid14File.seek(0);
   Serial.print("InValid14");Serial.println(InValid14File);
   if (InValid14File) {
@@ -1375,8 +1863,8 @@ void SDWriteFile14() {
 
 //-------------------------
 void SDWriteFile15() {
-  SD.remove("InValid15.txt");
-  InValid15File = SD.open("InValid15.txt", FILE_WRITE);
+  SD.remove("InVal15.txt");
+  InValid15File = SD.open("InVal15.txt", FILE_WRITE);
   InValid15File.seek(0);
   Serial.print("InValid15");Serial.println(InValid15File);
   if (InValid15File) {
@@ -1397,8 +1885,8 @@ void SDWriteFile15() {
 }
 //-------------------------
 void SDWriteFile16() {
-  SD.remove("InValid16.txt");
-  InValid16File = SD.open("InValid16.txt", FILE_WRITE);
+  SD.remove("InVal16.txt");
+  InValid16File = SD.open("InVal16.txt", FILE_WRITE);
   InValid16File.seek(0);
   Serial.print("InValid16");Serial.println(InValid16File);
   if (InValid16File) {
@@ -1419,8 +1907,8 @@ void SDWriteFile16() {
 
 //-------------------------
 void SDWriteFile17() {
-  SD.remove("InValid17.txt");
-  InValid17File = SD.open("InValid17.txt", FILE_WRITE);
+  SD.remove("InVal17.txt");
+  InValid17File = SD.open("InVal17.txt", FILE_WRITE);
   InValid17File.seek(0);
   Serial.print("InValid17");Serial.println(InValid17File);
   if (InValid17File) {
@@ -1441,8 +1929,8 @@ void SDWriteFile17() {
 
 //-------------------------
 void SDWriteFile18() {
-  SD.remove("InValid18.txt");
-  InValid18File = SD.open("InValid18.txt", FILE_WRITE);
+  SD.remove("InVal18.txt");
+  InValid18File = SD.open("InVal18.txt", FILE_WRITE);
   InValid18File.seek(0);
   Serial.print("InValid18");Serial.println(InValid18File);
   if (InValid18File) {
@@ -1463,8 +1951,8 @@ void SDWriteFile18() {
 }
 //-------------------------
 void SDWriteFile19() {
-  SD.remove("InValid19.txt");
-  InValid19File = SD.open("InValid19.txt", FILE_WRITE);
+  SD.remove("InVal19.txt");
+  InValid19File = SD.open("InVal19.txt", FILE_WRITE);
   InValid19File.seek(0);
   Serial.print("InValid19");Serial.println(InValid19File);
   if (InValid19File) {
@@ -1485,8 +1973,8 @@ void SDWriteFile19() {
 }
 //-------------------------
 void SDWriteFile20() {
-  SD.remove("InValid20.txt");
-  InValid20File = SD.open("InValid20.txt", FILE_WRITE);
+  SD.remove("InVal20.txt");
+  InValid20File = SD.open("InVal20.txt", FILE_WRITE);
   InValid20File.seek(0);
   Serial.print("InValid20");Serial.println(InValid20File);
   if (InValid20File) {
