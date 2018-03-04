@@ -190,6 +190,8 @@ pinMode(BPinitConf,INPUT);
     Serial.println("Cable connected");  
     Serial.print("Local IP address : ");
     Serial.println(Ethernet.localIP());
+    
+        SDRead();    
 }
 
 //*******************************************************************************************************
@@ -1054,6 +1056,33 @@ void SDRead()
     // close the file:
 
     InValid1File.close();
+  }
+  
+   // Lecture fichier InValid1[]
+  InValid2File = SD.open("InVal2.txt", FILE_READ);
+  IndexValid = 0;
+      Serial.print("Debut:......"); 
+          Serial.println(InValid2File); 
+  if (InValid2File) {
+    Serial.println(" InValid2File ouvert en lecture");
+    Serial.println("Debut:");   
+    while (InValid2File.available()) {
+      octetReceptionProc = InValid2File.read();    
+        Serial.println(octetReceptionProc);
+       if (octetReceptionProc == '/') {
+          InValid2[IndexValid] = (chaineReceptionProc.toInt());
+          Serial.println(InValid2[IndexValid]);
+        IndexValid++;
+        chaineReceptionProc="";
+      }
+    else {
+      caractereReceptionProc = char(octetReceptionProc);
+      chaineReceptionProc = chaineReceptionProc + caractereReceptionProc;  
+      }
+        }   
+    // close the file:
+
+    InValid2File.close();
   }
  
   // Lecture fichier InValid20[]
